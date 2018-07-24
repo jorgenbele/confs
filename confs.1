@@ -1,0 +1,127 @@
+.TH CONFS 1
+.SH NAME
+confs - manage multiple types and versions of config files
+.SH SYNOPSIS
+.B confs
+[\fB-v\fR] [\fB-p|t\fR]
+[\fB--path\fR \fIPATH\fR]
+\fIcommand\fR
+[\fIargs\fR ...]
+.SH OPTIONS
+.SS General
+\fB-v\fR, \fB--verbose\fR  Enable verbose output
+.br
+\fB-p\fR, \fB--pretty\fR   Force pretty output
+.br
+\fB-t\fR, \fB--terse\fR    Force terse output
+.br
+\fB--path\fR <\fIpath\fR>  Use an alternative confs data path
+.SS Commands
+\fBtree\fR
+.br
+\fBshow\fR      [\fIidentifier\fR ...]
+.br
+\fBcreate\fR     \fIidentifier\fR
+.br
+\fBmigrate\fR    \fIidentifier\fR \fIpath\fR ... 
+.br
+\fBinstall\fR    \fIidentifier\fR [\fItarget\fR ...]
+.br
+\fBuninstall\fR  \fIidentifier\fR
+.br
+\fBenable\fR     \fIidentifier\fR
+.br
+\fBdelete\fR     \fIidentifier\fR  \fBNOT IMPLEMENTED\fR
+.br
+\fBadd\fR [\fB-f\fR, \fB--is-file\fR] \fIidentifier\fR \fIname\fR \fIdest\fR
+.br
+\fBconfig\fR [\fBget\fR \fIkey\fR | \fBset\fR \fIkey\fR \fIvalue\fR | \fBshow\fR]
+
+Where \fIidentifier\fR is either a \fBtype\fR or a concatination
+of the \fBtype\fR and the \fBalt\fR name using a \fB/\fR, resulting
+in \fItype\fB/\fR\fIalt\fR.
+
+.SH DESCRIPTION
+.B confs
+manages multiple versions of configuration file types.
+
+For example the type \fBvim\fR can have the versions
+(called \fBalts\fR) \fBprogramming\fR, \fBwriting\fR 
+and \fBspacevim\fR, each serving different purposes and
+containing different \fB~/.vim,\fR
+and \fB~/.vimrc\fR files and directories.
+
+.SH COMMANDS
+
+.SS tree
+Runs the \fB/bin/env tree\fR command on the confs data path.
+
+.SS show      [\fIidentifier\fR ...]
+Shows a list of all types or those identified by \fIidentifier\fR ...
+
+.SS create     \fIidentifier\fR
+Creates a type and or alt.
+
+.SS migrate    \fIidentifier\fR \fIpath\fR ... 
+Moves destinations at \fIpath\fR ... to the alt \fIidentifier\fR, 
+replacing the files/dirs at \fIpath\fR ... with symlinks to those
+controlled by \fBconfs\fR.
+
+.SS install    \fIidentifier\fR [\fItarget\fR ...]
+Enables and installs all, or only the specified targets for the alt 
+\fIidentifier\fR. 
+This removes the symlinks from the previously installed \fBtype\fR 
+first (see the \fBuninstall\fR command).
+
+.SS uninstall  \fIidentifier\fR
+Uninstalls the symlinks of the installed alt \fIidentifier\fR.
+    
+.SS enable     \fIidentifier\fR
+Sets the alt \fIidentifier\fR to the enabled alt
+of its type. 
+
+\fBNOTE\fR: This only sets the \fBenabled symlink\fR of the type
+to resolve to the path of the alt, it does not install it.
+Therefore the \fBinstall\fR command is probably the one you want to use.
+
+.SS delete     \fIidentifier\fR  \fBNOT IMPLEMENTED\fR
+Deletes a type, or alt. \fBNOTE\fR that only the alt will be 
+deleted if specified, not its corresponding type.
+
+.SS add [\fB-f\fR, \fB--is-file\fR] \fIidentifier\fR \fIname\fR \fIdest\fR
+Creates a new target for the alt \fIidentifier\fR named \fIname\fR,
+which should install to \fIdest\fR.
+
+The [\fB-f\fR, \fB--is-file\fR] flag specifies that the contents
+of the target should be a file, instead of a directory.
+
+\fBNOTE:\fR The \fBadd\fR command neither copies from \fIdest\fR, 
+nor installs any symlinks outside of the confs data path.
+
+.SS config [\fBget\fR \fIkey\fR | \fBset\fR \fIkey\fR \fIvalue\fR | \fBshow\fR]
+Used to display the current configuration options, set a key 
+value pair or get the value of a key.
+
+.SH FILES
+.TP
+\fI~/.confs\fR
+The default path to store the configuration data.
+.TP
+\fI~/.confsrc\fR
+The configuration file.
+.SH LIMITATIONS
+.B confs
+only supports having one \fBalt\fR enabled at the same
+time per \fBtype\fR. However, any combination of \fBtarget\fRs
+can be installed for the given alt.
+.br
+\fBtype\fR and \fBalt\fR names \fBCANNOT\fR contain dashes (\fB/\fR).
+.SH AUTHORS
+.BG
+Written by blockdevice <https://www.github.com/blockdevice>
+
+.SH COPYRIGHT
+GNU General Public License v3 (GLPv3) 
+
+Copyright (c) 2018, blockdevice 
+All rights reserved.
