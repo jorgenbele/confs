@@ -18,10 +18,10 @@ import sys
 from pathlib import Path
 from docopt import docopt
 
-from confslib import *
-import confslib
+from confs.confslib import *
+import confs.confslib
 
-from common import *
+from confs.common import *
 
 def uninstall_cmd(args):
     args = docopt(__doc__)

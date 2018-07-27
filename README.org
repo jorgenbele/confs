@@ -1,0 +1,111 @@
+* Confs - a configuration file manager
+** Usage:
+#+BEGIN_SRC
+CONFS(1)                    General Commands Manual                   CONFS(1)
+
+NAME
+       confs - manage multiple types and versions of config files
+
+SYNOPSIS
+       confs [-v] [-p|t] [--path PATH] command [args ...]
+
+OPTIONS
+   General
+       -v, --verbose  Enable verbose output
+       -p, --pretty   Force pretty output
+       -t, --terse    Force terse output
+       --path <path>  Use an alternative confs data path
+
+   Commands
+       tree
+       show      [identifier ...]
+       create     identifier
+       migrate    identifier path ...
+       install    identifier [target ...]
+       uninstall  identifier
+       enable     identifier
+       delete     identifier  NOT IMPLEMENTED
+       add [-f, --is-file] identifier name dest
+       config [get key | set key value | show]
+
+       Where  identifier  is  either a type or a concatination of the type and
+       the alt name using a /, resulting in type/alt.
+
+DESCRIPTION
+       confs manages multiple versions of configuration file types.
+
+       For example the type vim can have the versions (called  alts)  program‐
+       ming,  writing  and  spacevim, each serving different purposes and con‐
+       taining different ~/.vim, and ~/.vimrc files and directories.
+
+COMMANDS
+   tree
+       Runs the /bin/env tree command on the confs data path.
+
+   show [identifier ...]
+       Shows a list of all types or those identified by identifier ...
+
+   create identifier
+       Creates a type and or alt.
+
+   migrate identifier path ...
+       Moves destinations at path ... to the  alt  identifier,  replacing  the
+       files/dirs at path ... with symlinks to those controlled by confs.
+
+   install identifier [target ...]
+       Enables  and  installs  all,  or only the specified targets for the alt
+       identifier.  This removes the symlinks from  the  previously  installed
+       type first (see the uninstall command).
+
+   uninstall identifier
+       Uninstalls the symlinks of the installed alt identifier.
+
+   enable identifier
+       Sets the alt identifier to the enabled alt of its type.
+
+       NOTE:  This only sets the enabled symlink of the type to resolve to the
+       path of the alt, it does not install it.  Therefore the install command
+       is probably the one you want to use.
+
+   delete identifier NOT IMPLEMENTED
+       Deletes a type, or alt. NOTE that only the alt will be deleted if spec‐
+       ified, not its corresponding type.
+
+   add [-f, --is-file] identifier name dest
+       Creates a new target for the alt identifier named  name,  which  should
+       install to dest.
+
+       The  [-f,  --is-file]  flag  specifies  that the contents of the target
+       should be a file, instead of a directory.
+
+       NOTE: The add command neither copies from dest, nor installs  any  sym‐
+       links outside of the confs data path.
+
+   config [get key | set key value | show]
+       Used to display the current configuration options, set a key value pair
+       or get the value of a key.  'NOT FUNCTIONAL'
+
+FILES
+       ~/.confs
+              The default path to store the configuration data.
+
+       ~/.confsrc
+              The configuration file. NOT CURRENTLY USED
+
+LIMITATIONS
+       confs only supports having one alt enabled at the same time  per  type.
+       However, any combination of targets can be installed for the given alt.
+       type and alt names CANNOT contain dashes (/).
+
+AUTHORS
+       Written by blockdevice <https://www.github.com/blockdevice>
+
+COPYRIGHT
+       GNU General Public License v3 (GLPv3)
+
+       Copyright (c) 2018, blockdevice All rights reserved.
+
+                                                                      CONFS(1)
+#+END_SRC
+                                                                                                                                                                                                                          CONFS(1)
+** Features:
