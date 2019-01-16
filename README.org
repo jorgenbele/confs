@@ -98,12 +98,12 @@ LIMITATIONS
        type and alt names CANNOT contain dashes (/).
 
 AUTHORS
-       Written by blockdevice <https://www.github.com/blockdevice>
+       Written by jorgenbele <https://www.github.com/jorgenbele>
 
 COPYRIGHT
        GNU General Public License v3 (GLPv3)
 
-       Copyright (c) 2018, blockdevice All rights reserved.
+       Copyright (c) 2018, jorgenbele All rights reserved.
 
                                                                       CONFS(1)
 #+END_SRC
